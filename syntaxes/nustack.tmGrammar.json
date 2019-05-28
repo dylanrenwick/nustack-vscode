@@ -1,0 +1,98 @@
+{
+    "scopeName": "source.nustack",
+    "patterns": [
+        { "include": "#constant" },
+        { "include": "#keyword" },
+        { "include": "#string" },
+        { "include": "#punctuation" }
+    ],
+    "repository": {
+        "constant": {
+            "match": "[0-9]+",
+            "name": "constant.numeric"
+        },
+        "keyword": {
+            "match": "(return|if|else|while|break|continue)",
+            "name": "keyword.control"
+        },
+        "punctuation": {
+            "patterns": [
+                {
+                    "match": ";",
+                    "name": "punctuation.terminator.statement.c"
+                },
+                {
+                    "match": ",",
+                    "name": "punctuation.separator.delimiter.c"
+                }
+            ]
+        },
+        "type": {
+            "match": ": (int|string|char|bool)",
+            "captures": {
+                "1": {
+                    "name": "storage.type"
+                }
+            }
+        },
+        "string": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.c",
+                    "begin": "\"",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.c"
+                        }
+                    },
+                    "end": "\"",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.c"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#string_escaped_char"
+                        },
+                        {
+                            "include": "#string_placeholder"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.single.c",
+                    "begin": "'",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.c"
+                        }
+                    },
+                    "end": "'",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.c"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#string_escaped_char"
+                        }
+                    ]
+                }
+            ]
+        },
+        "string_escaped_char": {
+            "patterns": [
+                {
+                    "match": "(?x)\\\\ (\n\\\\             |\n[abefnprtv'\"?]   |\n[0-3]\\d{,2}     |\n[4-7]\\d?        |\nx[a-fA-F0-9]{,2} |\nu[a-fA-F0-9]{,4} |\nU[a-fA-F0-9]{,8} )",
+                    "name": "constant.character.escape.c"
+                },
+                {
+                    "match": "\\\\.",
+                    "name": "invalid.illegal.unknown-escape.c"
+                }
+            ]
+        }
+    }
+}
